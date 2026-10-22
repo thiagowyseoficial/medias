@@ -1,0 +1,147 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* =========================================================================
+   Design system
+   Referência: produtividade densa (Linear, Vercel Geist). Neutro em zinco,
+   um único acento azul reservado a ação e foco, cores semânticas só para estado.
+   ========================================================================= */
+
+@theme static {
+  /* Tipografia */
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Escala compacta: 12 · 13 · 14 · 16 · 20 · 24 · 28 */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 0.875rem;
+  --text-base--line-height: 1.375rem;
+  --text-lg: 1rem;
+  --text-lg--line-height: 1.5rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 1.75rem;
+  --text-3xl--line-height: 2rem;
+
+  /* Raios: 4 (marcas), 6 (controles), 8 (painéis) */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+}
+
+/* ---- Tokens semânticos (claro) ---- */
+:root {
+  --ui-radius: 0.375rem;
+
+  --ui-bg: #ffffff;           /* superfície: painéis, inputs */
+  --ui-bg-muted: #f4f4f5;     /* hover, cabeçalho de tabela */
+  --ui-bg-elevated: #ebebed;  /* ativo, trilhas */
+  --ui-bg-accented: #e0e0e4;
+  --ui-bg-inverted: #18181b;
+
+  --ui-border: #e4e4e7;
+  --ui-border-muted: #efeff1;
+  --ui-border-accented: #cfcfd5;
+
+  --ui-text: #27272a;
+  --ui-text-dimmed: #a1a1aa;
+  --ui-text-muted: #71717a;
+  --ui-text-toned: #52525b;
+  --ui-text-highlighted: #09090b;
+  --ui-text-inverted: #ffffff;
+
+  --ui-primary: #2563eb;
+  --ui-info: #2563eb;
+  --ui-success: #15803d;
+  --ui-warning: #b45309;
+  --ui-error: #dc2626;
+
+  --app-bg: #fafafa;          /* fundo da aplicação (atrás dos painéis) */
+}
+
+/* ---- Tokens semânticos (escuro) ---- */
+.dark {
+  --ui-bg: #111113;
+  --ui-bg-muted: #18181b;
+  --ui-bg-elevated: #232327;
+  --ui-bg-accented: #2e2e33;
+  --ui-bg-inverted: #fafafa;
+
+  --ui-border: #27272b;
+  --ui-border-muted: #1e1e22;
+  --ui-border-accented: #3a3a40;
+
+  --ui-text: #e4e4e7;
+  --ui-text-dimmed: #5f5f68;
+  --ui-text-muted: #9a9aa3;
+  --ui-text-toned: #bcbcc4;
+  --ui-text-highlighted: #fafafa;
+  --ui-text-inverted: #09090b;
+
+  --ui-primary: #6b9bff;
+  --ui-info: #6b9bff;
+  --ui-success: #4ade80;
+  --ui-warning: #fbbf24;
+  --ui-error: #f87171;
+
+  --app-bg: #09090b;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+  text-size-adjust: 100%;
+}
+body {
+  background: var(--app-bg);
+  color: var(--ui-text);
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+/* ---- Componentes de superfície ---- */
+@layer components {
+  /* Painel: superfície com borda fina, sem sombra. */
+  .panel { @apply rounded-lg border border-default bg-default; }
+  .panel-header { @apply flex min-h-11 items-center justify-between gap-3 border-b border-default px-4 py-2.5; }
+  .panel-title { @apply text-sm font-medium text-highlighted; }
+  .panel-body { @apply p-4; }
+
+  /* Rótulo pequeno (cabeçalhos de coluna, legendas). */
+  .label { @apply text-xs font-medium text-muted; }
+
+  /* Números: algarismos tabulares, alinham em coluna sem fonte mono. */
+  .num { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum', 'zero' 0; }
+
+  /* Valor projetado: sublinhado pontilhado em vez de itálico. */
+  .is-projected { text-decoration: underline dotted; text-decoration-color: var(--ui-text-dimmed); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+
+  /* Tabela de dados. */
+  .tbl { @apply w-full border-collapse text-sm; }
+  .tbl th { @apply h-9 whitespace-nowrap border-b border-default bg-muted px-3 text-left text-xs font-medium text-muted; }
+  .tbl td { @apply h-12 border-b border-default px-3 align-middle; }
+  .tbl tbody tr { @apply transition-colors hover:bg-muted; }
+  .tbl tbody tr:last-child td { @apply border-b-0; }
+  .tbl .r { @apply text-right; }
+
+  /* Linha chave/valor com guia pontilhada. */
+  .kv { @apply flex items-baseline gap-2 text-sm; }
+  .kv > .leader { flex: 1; border-bottom: 1px dotted var(--ui-border-accented); transform: translateY(-0.25em); min-width: 1rem; }
+}
+
+/* ---- Mobile / PWA ---- */
+@media (max-width: 767px) {
+  input, textarea, select { font-size: 16px !important; }
+}
+.safe-top { padding-top: env(safe-area-inset-top); }
+@media (display-mode: standalone) {
+  body { user-select: none; -webkit-user-select: none; }
+  input, textarea { user-select: text; -webkit-user-select: text; }
+}
+@media (pointer: coarse) {
+  button, [role="tab"], a { touch-action: manipulation; }
+}
